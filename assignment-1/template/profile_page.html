@@ -1,0 +1,58 @@
+<div style="color:red">profile</div>
+<button><a href="/logout">Logout</a></button>
+<div style="align-content: center">
+    {% if user %}
+    <h2>Hello, {{ user.name }} {{ user.surname}}!</h2>
+    <h1>Here's your profile:</h1>
+    <h3>City: {{ user.city }}</h3>
+    <h3>Gender: {{ 'Female' if user.gender else 'Male' }}</h3>
+
+    <h3>Interests: {{ ', '.join(user.interests)}}</h3>
+
+    <h3>{{ user.name }}</h3>
+
+    {% else %}
+    <h1>Hello, World!</h1>
+    {% endif %}
+
+    {% if friends %}
+    <div id="friends"><h2>Friends:</h2>
+        {% for friend in friends %}
+        <div>
+            <h4>{{friend.username}}
+                {% if friend.is_approved and friend.has_friend_approved %}
+                В друзьях
+                {% elif not friend.is_approved %}
+                <button id="friend_{{friend.user_id}}" onclick="addFriend({{friend.user_id}})">Подружиться</button>
+                {% if friend.has_friend_approved %}
+                Друг отправил приглашение
+                {% endif %}
+                {% endif %}
+            </h4>
+
+        </div>
+        {% endfor %}
+        {% else %}
+        <div>У вас нет друзей(</div>
+        {% endif %}
+    </div>
+</div>
+
+
+<script>
+    function addFriend(id) {
+        const request = new XMLHttpRequest();
+        request.responseType = "json";
+        request.open('PUT', '/friend/add/' + id);
+        request.addEventListener("readystatechange", () => {
+            if (request.readyState === 4 && request.status === 200) {
+                if (!request.response.success) {
+                    alert(request.response.message)
+                } else {
+                    location.reload()
+                }
+            }
+        });
+        request.send();
+    }
+</script>

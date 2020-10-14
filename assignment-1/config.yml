@@ -1,0 +1,14 @@
+db:
+  host: db
+  port: 3306
+  user: dwhistle
+  password: dwhistle
+  database: master
+  auth_plugin: mysql_native_password
+
+JWT_SECRET_KEY: asdasfwr2rwefsdf
+JWT_ALGORITHM: HS256
+JWT_LEEWAY: 10000
+JWT_TOKEN_LOCATION: cookies
+JWT_ACCESS_COOKIE_NAME: JwtToken
+JWT_COOKIE_CSRF_PROTECT: False
