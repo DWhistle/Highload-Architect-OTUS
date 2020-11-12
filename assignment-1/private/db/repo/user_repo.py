@@ -113,5 +113,34 @@ class UserRepo:
                 cursor.executemany(insert_interests_query, interests_data)
                 connection.commit()
 
+    @staticmethod
+    def search_profile(name: str, surname: str):
+        with db.get_db() as connection:
+            with connection.cursor(buffered=True) as cursor:
+                user_info = ("""
+                        select 
+                            p.user_id,
+                            p.city,
+                            p.first_name,
+                            p.gender,
+                            p.surname,
+                            p.id as profile_id
+                        from profile p
+                        where 
+                        p.first_name like %(name)s and
+                        p.surname like %(surname)s
+                        order by p.id asc
+                            """)
+                profile_search_data = {
+                    'name': f'{name}%',
+                    'surname': f'{surname}%'
+                }
+                cursor.execute(user_info, profile_search_data)
+                profiles_data = cursor.fetchall()
+                profiles = []
+                for user_id, city, first_name, gender, surname, profile_id in profiles_data:
+                    profiles.append(Profile(profile_id, first_name, surname, gender, city, user_id, []))
+                return profiles
+
 
 

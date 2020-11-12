@@ -1,7 +1,8 @@
 CREATE DATABASE master;
 USE master;
 CREATE USER 'dwhistle' IDENTIFIED BY 'dwhistle';
-
+GRANT ALL ON *.* TO 'dwhistle';
+FLUSH PRIVILEGES;
 CREATE TABLE user (
     id INT AUTO_INCREMENT,
     login VARCHAR(20) NOT NULL UNIQUE,

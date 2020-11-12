@@ -1,0 +1,24 @@
+
+
+{% from "_form_builder.html" import render_field %}
+<form method="post">
+  <dl>
+    {{ render_field(form.name) }}
+    <p>
+    {{ render_field(form.surname) }}
+  </p></dl>
+  <p><input type="submit" value="Search">
+</p>
+</form>
+
+
+{% if profiles %}
+{% for profile in profiles %}
+<div style="border: 20px; border-color: blanchedalmond">
+<h2>Hello, {{ profile.name }} {{ profile.surname}}!</h2>
+<h1>Here's your profile:</h1>
+<h3>City: {{ profile.city }}</h3>
+<h3>Gender: {{ 'Female' if profile.gender else 'Male' }}</h3>
+</div>
+{% endfor %}
+{% endif %}
